@@ -1,12 +1,17 @@
+
 import React from "react";
 import { mainMenu } from "../../../config/Config";
 import MenuItem from "./MenuItem";
 
 const Sidebar = ({ collapsed, isMobile, setIsMobile }) => {
   const [isHover, setIsHover] = React.useState(false);
+
+  // Expand the sidebar when hovered or when it is not collapsed.
   const isMinimize = !collapsed || isHover;
+
   return (
     <>
+      {/* Mobile overlay */}
       {isMobile && (
         <div
           className="fixed inset-0 z-40 bg-black/30 lg:hidden"
@@ -15,34 +20,50 @@ const Sidebar = ({ collapsed, isMobile, setIsMobile }) => {
       )}
 
       {/* Sidebar */}
-      <div
-        className={` fixed left-0 top-0 z-50 flex h-screen flex-col border-r border-gray-200 px-4 pt-6 transition-all duration-300 ease-in-out  lg:sticky lg:z-20
+      <aside
+        className={`
+          fixed left-0 top-0 z-50 flex h-screen flex-col
+          overflow-y-auto border-r border-gray-100
+          bg-[#f8f9fa] px-4 pt-3
+          transition-all duration-300 ease-in-out
+          lg:sticky lg:z-20 lg:translate-x-0
           ${isMinimize ? "w-64" : "w-[72px]"}
-           ${isMobile ? "translate-x-0 bg-white m-1.5 rounded-3xl" : "-translate-x-full "}
-          lg:translate-x-0
+          ${
+            isMobile
+              ? "m-1.5 translate-x-0 rounded-2xl bg-[#f8f9fa]"
+              : "-translate-x-full"
+          }
         `}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
+        {/* Logo */}
+        <div
+          className={`flex h-[64px] shrink-0 items-center ${
+            isMinimize ? "gap-2 px-2" : "justify-center"
+          }`}
+        >
+          <img
+            src="/logo.png"
+            alt="MyPatientHUB Logo"
+            className="h-9 w-9 shrink-0 object-contain"
+          />
 
-
-
-        {/* logo */}
-        <div className="flex gap-1.5 ml-3 items-center h-16">
-          <img src="/logo.png" alt="Logo" className="h-8 w-8" />
-          {isMinimize ? <span className="text-sm font-normal text-gray-900">
-            MyPatientHUB
-          </span> : ""
-
-          }
+          {isMinimize && (
+            <span className="whitespace-nowrap text-[18px] font-semibold text-[#344767]">
+              MyPatientHUB
+            </span>
+          )}
         </div>
-        <hr className="shrink-0 border-0 border-solid border-black/10 bg-transparent bg-linear-to-r from-transparent via-[#344767]/50 to-transparent h-px y-4 opacity-25 my-2.5" />
+
+        {/* Divider */}
+        <div className="my-3 h-px w-full shrink-0 bg-[#344767]/10" />
 
         {/* Navigation */}
-        <nav className="flex flex-col gap-2">
-          {mainMenu.map((item, index) => (
+        <nav className="flex flex-col gap-2 pb-5">
+          {mainMenu.map((item) => (
             <MenuItem
-              key={index}
+              key={item.path}
               path={item.path}
               collapsed={isMinimize}
               title={item.title}
@@ -50,10 +71,7 @@ const Sidebar = ({ collapsed, isMobile, setIsMobile }) => {
             />
           ))}
         </nav>
-
-        {/* footer */}
-      </div>
-
+      </aside>
     </>
   );
 };
