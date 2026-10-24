@@ -44,11 +44,11 @@ export const mainMenu = [
     path: "/chat",
     
   },
-  {
-    title: "Find Pharmacy",
-    icon: Pill,
-    path: "/findpharmacy",
-  },
+ {
+  title: "Find Pharmacy",
+  path: "/findpharmacy",
+  icon: Pill,
+},
   {
     title: "My Dependents",
     icon: Users,
